@@ -2,7 +2,7 @@
 contentdir: "content"
 layoutdir: "layouts"
 publishdir: "public"
-baseurl: "http://mluisbrown.github.io/"
+baseurl: "http://michael-brown.net/"
 title: "Michael Brown"
 paginate: 5
 copyright: "Copyright © 2016"
