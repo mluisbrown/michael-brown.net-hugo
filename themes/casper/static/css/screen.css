@@ -128,6 +128,10 @@ table { border-collapse: collapse; border-spacing: 0; }
     -moz-osx-font-smoothing: grayscale;
 }
 
+.iconlink {
+    text-decoration: none !important;
+}
+
 /* Each icon is created by inserting the correct character into the
    content of the :before pseudo element. Like a boss. */
 .icon-github:before {
