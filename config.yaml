@@ -29,7 +29,7 @@ params:
   hideHUGOSupport: false
 
 permalinks:
-  post: "/:slug/"
+  post: "/:year/:slug/"
 
 menu:
   main:
