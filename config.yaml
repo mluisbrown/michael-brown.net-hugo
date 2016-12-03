@@ -8,14 +8,16 @@ paginate: 5
 copyright: "Copyright © 2016"
 canonifyurls: true
 theme: "casper"
+metaDataFormat: "yaml"
 
 params:
   description: "the only way to do great work is to love what you do"
   cover: "images/bridge2.jpg"
-  # author: "Michael Brown"
+  author: "Michael Brown"
   # authorlocation: "Lisbon, Portugal"
-  # authorwebsite: "http://michael-brown.net"
-  noauthor: true
+  authorwebsite: "http://michael-brown.net"
+  noauthor: false
+  share: false
   # bio: "iOS Developer"
   logo: "images/head.png"
   googleAnalyticsUserID: "UA-41132207-2"

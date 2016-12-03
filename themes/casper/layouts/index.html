@@ -1,7 +1,11 @@
 {{ partial "header.html" . }}
 
 {{if .Site.Params.cover}}
-<header class="main-header " style="background-image: url({{.Site.BaseURL}}{{.Site.Params.cover}})">
+{{if or (eq (substr .Site.Params.cover 0 7) "http://") (eq (substr .Site.Params.cover 0 8) "https://")}}
+  <header class="main-header" style="background-image: url({{.Site.Params.cover}})">
+  {{ else }}
+  <header class="main-header" style="background-image: url({{.Site.BaseURL}}{{.Site.Params.cover}})">
+  {{ end }}
 {{else}}
 <header class="main-header no-cover">
 {{end}}
@@ -23,43 +27,43 @@
     <div class="vertical">
         <div class="main-header-content inner">
             {{ if .Site.Params.linkedinName }}
-                <a class="iconlink" href="https://www.linkedin.com/in/{{ .Site.Params.linkedinName }}" target="_blank">
+                <a class="bloglogo" href="https://www.linkedin.com/in/{{ .Site.Params.linkedinName }}" target="_blank">
                     <span class="icon-linkedin" style="color:white;font-size:2em"></span>
                 </a>
             &nbsp;
             {{end}}
             {{ if .Site.Params.githubName }}
-                <a class="iconlink" href="https://github.com/{{ .Site.Params.githubName }}" target="_blank">
+                <a class="bloglogo" href="https://github.com/{{ .Site.Params.githubName }}" target="_blank">
                 <span class="icon-github" style="color:white;font-size:2em"></span>
                 </a>
             &nbsp;
             {{end}}
             {{ if .Site.Params.twitterName }}
-                <a class="iconlink" href="https://twitter.com/{{ .Site.Params.twitterName }}" target="_blank">
+                <a class="bloglogo" href="https://twitter.com/{{ .Site.Params.twitterName }}" target="_blank">
                     <span class="icon-twitter" style="color:white;font-size:2em"></span>
                 </a>
             &nbsp;
             {{end}}
             {{ if .Site.Params.facebookName }}
-                <a class="iconlink" href="https://www.facebook.com/{{ .Site.Params.facebookName }}" target="_blank">
+                <a class="bloglogo" href="https://www.facebook.com/{{ .Site.Params.facebookName }}" target="_blank">
                     <span class="icon-facebook" style="color:white;font-size:2em"></span>
                 </a>
             &nbsp;
             {{end}}
             {{ if .Site.Params.instagramName }}
-                <a class="iconlink" href="https://instagram.com/{{ .Site.Params.instagramName }}" target="_blank">
+                <a class="bloglogo" href="https://instagram.com/{{ .Site.Params.instagramName }}" target="_blank">
                     <span class="icon-instagram" style="color:white;font-size:2em"></span>
                 </a>
             &nbsp;
             {{end}}
             {{ if .Site.Params.pinterestName }}
-                <a class="iconlink" href="https://www.pinterest.com/{{ .Site.Params.pinterestName }}" target="_blank">
+                <a class="bloglogo" href="https://www.pinterest.com/{{ .Site.Params.pinterestName }}" target="_blank">
                     <span class="icon-pinterest" style="color:white;font-size:2em"></span>
                 </a>
             &nbsp;
             {{end}}
             {{ if .Site.Params.googlePlusName }}
-                <a class="iconlink" href="https://google.com/+{{ .Site.Params.googlePlusName }}" target="_blank">
+                <a class="bloglogo" href="https://google.com/+{{ .Site.Params.googlePlusName }}" target="_blank">
                     <span class="icon-google-plus" style="color:white;font-size:2em"></span>
                 </a>
             &nbsp;
@@ -90,7 +94,7 @@
             {{ $.Scratch.Set "paginatedSections" "post" }}
         {{ end }}
     {{ end }}
-    
+
     {{ $list := where .Data.Pages "Section" "in" ($.Scratch.Get "paginatedSections") }}
     {{ $list := where $list "Section" "!=" "" }}
     {{ $paginator := .Paginate ( $list ) }}
