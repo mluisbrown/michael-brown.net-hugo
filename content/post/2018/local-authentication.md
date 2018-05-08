@@ -14,27 +14,7 @@ There is only a single class, [LAContext](https://developer.apple.com/documentat
 
 The most naive implementation of a biometric (Touch ID or Face ID) authentication request is as in Apple's example:
 
-```swift
-let myContext = LAContext()
-let myLocalizedReasonString = <#String explaining why app needs authentication#>
-
-var authError: NSError?
-if #available(iOS 8.0, macOS 10.12.1, *) {
-    if myContext.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &authError) {
-        myContext.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: myLocalizedReasonString) { success, evaluateError in
-            if success {
-                // User authenticated successfully, take appropriate action
-            } else {
-                // User did not authenticate successfully, look at error and take appropriate action
-            }
-        }
-    } else {
-        // Could not evaluate policy; look at authError and present an appropriate message to user
-    }
-} else {
-    // Fallback on earlier versions
-}
-```
+<script src="https://gist.github.com/mluisbrown/2979bb69e81d9ba4eba3f7c15abc9fa4.js"></script>
 
 ## What is actually supported?
 
@@ -48,93 +28,13 @@ That is incorrect. Once you call `canEvaluatePolicy` on a context, the `biometry
 
 I ended up creating my own abstraction to make it easier to track the full state of biometry support on the device and to limit all OS version checks to a single place:
 
-
-```swift
-public enum BiometrySupport {
-    public enum Biometry {
-        case touchID
-        case faceID
-    }
-
-    case available(Biometry)
-    case lockedOut(Biometry)
-    case notAvailable(Biometry)
-    case none
-
-    public var biometry: Biometry? {
-        switch self {
-        case .none, .lockedOut, .notAvailable:
-            return nil
-        case let .available(biometry):
-            return biometry
-        }
-    }
-}
-```
+<script src="https://gist.github.com/mluisbrown/70ef39d99f9801e3e532686f006053d2.js"></script>
 
 I am using `notAvailable` to cover both the "not available" and "not enrolled" states that the API can return. Incidentally, if the `LAError.Code` returned from the API is `biometryNotAvailable` that includes the situation where Face ID has been disabled by the user for your app in Settings.app.
 
 I created a `BiometricAuth` class to deal with everything related to local authentication. Below is the implementation of the `supportedBiometry` calculated property which returns a `BiometrySupport` enum:
 
-```swift
-public final class BiometricAuth {
-
-    public var supportedBiometry: BiometrySupport {
-        let context = LAContext()
-        var error: NSError?
-
-        if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
-            if #available(iOS 11.0, *) {
-                switch context.biometryType {
-                case .faceID:
-                    return .available(.faceID)
-                case .touchID:
-                    return .available(.touchID)
-                // NOTE: LABiometryType.none was introduced in iOS 11.2
-                // which is why it can't be used here even though Xcode
-                // errors with "non-exhaustive switch" if you don't use it 🤷🏼‍♀️
-                default:
-                    return .none
-                }
-            }
-
-            return .available(.touchID)
-        }
-
-        // NOTE: despite what Apple Docs state, the biometryType
-        // property *is* set even if canEvaluatePolicy fails
-        // See: http://www.openradar.me/36064151
-        if let error = error {
-            let code = LAError(_nsError: error as NSError).code
-            if #available(iOS 11.0, *) {
-                switch (code, context.biometryType) {
-                case (.biometryLockout, .faceID):
-                    return .lockedOut(.faceID)
-                case (.biometryLockout, .touchID):
-                    return .lockedOut(.touchID)
-                case (.biometryNotAvailable, .faceID), (.biometryNotEnrolled, .faceID):
-                    return .notAvailable(.faceID)
-                case (.biometryNotAvailable, .touchID), (.biometryNotEnrolled, .touchID):
-                    return .notAvailable(.touchID)
-                default:
-                    return .none
-                }
-            } else {
-                switch code {
-                case .touchIDLockout:
-                    return .lockedOut(.touchID)
-                case .touchIDNotEnrolled, .touchIDNotAvailable:
-                    return .notAvailable(.touchID)
-                default:
-                    return .none
-                }
-            }
-        }
-
-        return .none
-    }
-}
-```
+<script src="https://gist.github.com/mluisbrown/5503dd94fa71a60a55e33f3cf90b1dce.js"></script>
 
 As you can see, between OS version checks and checking both success and error conditions, just getting all the information about the supported biometry on the device is quite a bit more complex than a single API call!
 
@@ -157,18 +57,29 @@ For many apps this may be sufficiently secure. However, with Jailbreak, it's tri
 
 ## Restricting keychain item access to Touch ID and Face ID
 
-When storing keys or tokens in the keychain, you can restrict them to be only accessible using Touch ID or Face ID by creating a [`SecAccessControl`](https://developer.apple.com/documentation/security/secaccesscontrol) with the `kSecAttrAccessibleWhenPasscodeSetThisDeviceOnly` protection and the `touchIDCurrentSet` or `touchIDAny` flag (touchIDCurrentSet restricts access to the currently registered Touch ID fingerprints or the currently registered Face ID face):
+When storing keys or tokens in the keychain, you can restrict them to be only accessible using Touch ID or Face ID by creating a [`SecAccessControl`](https://developer.apple.com/documentation/security/secaccesscontrol) with the `kSecAttrAccessibleWhenPasscodeSetThisDeviceOnly` protection and the `touchIDCurrentSet` or `touchIDAny` flag (`touchIDCurrentSet` restricts access to the currently registered Touch ID fingerprints or the currently registered Face ID face):
 
-```swift
-var accessControlError: Unmanaged<CFError>?
-if let accessControl = SecAccessControlCreateWithFlags(kCFAllocatorDefault, kSecAttrAccessibleWhenPasscodeSetThisDeviceOnly, [.touchIDCurrentSet]], &accessControlError) {
-    // use accessControl
+NOTE: `touchIDCurrentSet` and `touchIDAny` have been deprecated in iOS 11.3 in favour of `biometryCurrentSet` and `biometryAny`.
+
+```
+// create an Access Control
+func createAccessControl() -> SecAccessControl? {
+    var accessControlError: Unmanaged<CFError>?
+    guard let accessControl = SecAccessControlCreateWithFlags(
+        kCFAllocatorDefault,
+        kSecAttrAccessibleWhenPasscodeSetThisDeviceOnly,
+        [.touchIDCurrentSet], &accessControlError) else {
+        // couldn't create accessControl
+        return nil
+    }
+
+    return accessControl
 }
 ```
 
 And then passing that access control as the value for the `kSecAttrAccessControl` key when calling `SecItemAdd`:
 
-```swift
+```
 let query: [String: Any] = [
     kSecClass as String: kSecClassGenericPassword,
     kSecAttrService as String: "my service name",
@@ -198,6 +109,77 @@ This will solve the situation where the attacker has the user's device passcode,
 
 ## Using the Secure Enclave for the highest security
 
-Even restricting keychain items to biometric access control, and restricting biometric authentication to the currently registered biometric data set won't help you if a device is jailbroken, because on a jailbroken device the entire contents of the keychain can be dumped out in plain text, regardless of access restrictions. The only really secure storage on an iOS device is the Secure Enclave, and only devices with Touch ID or Face ID have it. It is where the biometric data is stored. The good news is that as of iOS 9 Apple introduced an API for apps to store data in the secure enclave. However, since allowing user apps the ability to read anything from the secure enclave would make it also susceptible to jailbreak attacks, the caveat is that anything you store in the secure enclave can never be read back! Fortunatley, that's not as utterly useless as it might appear.
+Even restricting keychain items to biometric access control, and restricting biometric authentication to the currently registered biometric data set won't help you if a device is jailbroken, because on a jailbroken device the entire contents of the keychain can be dumped out in plain text, regardless of access restrictions. The only really secure storage on an iOS device is the Secure Enclave, and only devices with Touch ID or Face ID have it. It is where the biometric data is stored. The good news is that as of iOS 9 Apple introduced an API for apps to store "data" in the Secure Enclave. However, since allowing user apps the ability to read anything from the Secure Enclave would make it also susceptible to jailbreak attacks, the caveat is that anything you store in the Secure Enclave can never be read back! Fortunateley, that's not as utterly useless as it might appear.
 
-The **only** data that user apps can store in the secure enclave is the private key of a 256-bit elliptic curve public / private key pair. The key is generated in the secure enclave itself, and it never leaves there. All you can access is the public key and a reference to the private key, which can only be obtained after a successful biometric authentication.
+In fact, the **only** data that user apps can store in the Secure Enclave is the private key of a 256-bit elliptic curve public / private key pair. The key is generated in the Secure Enclave itself, and it never leaves there. All you can access is the public key and a reference to the private key, which can only be obtained after a successful biometric authentication.
+
+### How can this be used?
+
+When the user chooses to use biometric auth, create a public / private key pair for storing in the Secure Enclave, and store the public key in the keychain for later use. Then the public key can be used for either:
+
+#### Encryption
+
+User data can be encrypted using the public key, secure in the knowledge that it can only be decrypted by the Secure Enclave which contains the matching private key, and which can only be accessed after a successful biometric authentication.
+
+#### Signing
+
+The public key can be sent to a server and associated with a user and device. Subsequently, in order to get a session token from the server:
+
+* the app makes a request to the server for a string of random data (a [nonce](https://en.wikipedia.org/wiki/Cryptographic_nonce)).
+
+* after a successful biometric authentication, the app *signs* the nonce using the private key in the Secure Enclave, and sends the signed nonce back to the server.
+
+* the server can then use the public key which was registered for the user to *verify* the signature of the nonce, indicating that the user has been authenticated on the device, and so then provides a session token. This would substitute the normal username plus password hash being sent for server authentication.
+
+Code examples for the various steps above a provided below. These are just examples without any error handling.
+
+I highly recommend looking at the [SecureEnclaveCrypto](https://github.com/trailofbits/SecureEnclaveCrypto) repo in GitHub from where I got most of this code, and on which I based my implemenatation. The repo hasn't been updated for iOS 11 or Swift 4.x unfortunately.
+The [EllipticCurveKeyPair](https://github.com/agens-no/EllipticCurveKeyPair) repo is also very useful to look at, and is where I got the algorithm for converting a public key into DER and PEM formats.
+
+## Code for Secure Enclave keys, signing and encryption
+
+### Create a key pair and store the public key
+
+<script src="https://gist.github.com/mluisbrown/3e0611e5ddd9ed7875c183ca7b716a6b.js"></script>
+
+* `kSecAttrKeyTypeECSECPrimeRandom` is the Elliptic Curve key type used by the Secure Enclave. It is equivalent to the `prime256v1` key type in OpenSSL.
+* `kSecAttrTokenIDSecureEnclave` indicates the key is stored in the Secure Enclave.
+
+### Obtain the public key
+
+<script src="https://gist.github.com/mluisbrown/62ba0141e1e3e9f99182e7b85f2fd3bd.js"></script>
+
+To get the `SecKey` reference from the `CFDictionary` of the public key above:
+
+```
+let converted = publicKey as! [String: Any]
+let keyRef = converted[kSecValueRef as String] as! SecKey
+```
+
+To get the actual key data from the public key:
+```
+let converted = publicKey as! [String: Any]
+let data = converted[kSecValueData as String] as! Data
+```
+
+If you're sending this key data to a server, you'll almost certainly want it in the DER or PEM formats that OpenSSL understands:
+
+<script src="https://gist.github.com/mluisbrown/f3cdb3d0e620679d155caba2d266c38e.js"></script>
+
+### Obtain a private key reference
+
+You will need to provide an `LAContext` on which `evaluatePolicy` has succeeded. If you don't, one will be created for you and used. The `kSecUseOperationPrompt` is not used if you pass a context where you have already authenticated.
+
+<script src="https://gist.github.com/mluisbrown/06063646c27a7ac5c4222d4a7dea940b.js"></script>
+
+### Sign some data
+
+<script src="https://gist.github.com/mluisbrown/7da7c905e1835b3da0ad5f868d98a5ae.js"></script>
+
+### Encrypt some data
+
+<script src="https://gist.github.com/mluisbrown/c489d31654194b3adccc655e998443af.js"></script>
+
+### Decrypt some data
+
+<script src="https://gist.github.com/mluisbrown/dacc6c96103baa640ad1fc01a3c53801.js"></script>
