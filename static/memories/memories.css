@@ -1,0 +1,147 @@
+@font-face {
+  font-family: "San Francisco";
+  font-weight: 100;
+  src: url("sanfranciscodisplay-ultralight-webfont.woff2") format("woff2"), url("sanfranciscodisplay-ultralight-webfont.woff") format("woff");
+}
+
+body {
+	font-family: "San Francisco", Helvetica, Arial, sans-serif;
+	font-weight: 100;
+	font-size: 1.1em;
+	color: white;
+	background-color: #4a525a;
+}
+
+a { color: #aaa; text-decoration: none; }
+a:hover { color: #aaa; text-decoration: underline; }
+
+strong {
+	font-weight: 500;
+	color: #aaa;
+}
+
+#content {			
+	width: 320px ;
+	margin-left: auto ;
+	margin-right: auto ;
+	margin-top: 50px;
+}
+
+.left {
+	width: 320px;
+	vertical-align: middle;
+	margin-right: auto;
+	margin-left: auto;
+	text-align: center;
+}
+
+.right {
+	width: 320px;
+	vertical-align: middle;
+	margin-right: auto;
+	margin-left: auto;
+	text-align: center;
+}
+
+.phoneImg {
+	width: 320px;
+}
+
+.iconImg {
+	width: 128px;
+}
+
+.appStoreButton {
+	width: 280px;
+}
+
+.description {
+	text-align: left;
+	margin-bottom: 30px;
+}
+
+.contact {
+	text-align: center;
+}
+
+#phone {
+	background:url("iphone6-black.png") center top; 
+	background-repeat: no-repeat;
+	background-size: 455px;
+	height: 720px;
+	margin: 0;
+	padding: 0;
+}
+
+#demovideo {
+	margin-top: 122px;
+	width: 282px;
+	height: 500px;
+}
+
+.title {
+	padding:0px;
+	margin-top: 0em;
+	margin-bottom: 0em;
+	font-family: "San Francisco", Helvetica, Arial, sans-serif;
+	font-size: 4em;
+	font-weight: 100;
+	text-align: center;
+	color: #aaa;
+}		
+
+.subtitle {
+
+	text-align: center;
+}
+
+@media (min-width: 920px) {
+	#content { width: 920px;}
+	.left {
+		width: 450px;
+		float: left;
+	}
+	.right {
+		width: 450px;
+		float: right;
+	}
+
+	.phoneImg {
+		width: 450px;
+	}
+
+	.iconImg {
+		width: 256px;
+	}
+
+	.description {
+		margin-top: 30px;
+	}
+
+	.title {
+		margin-top: 1em;
+		text-align: left;
+	}
+
+	.subtitle {
+                margin-left: 5px;
+		text-align: left;
+	}
+}
+
+ul li {
+	padding:5px;
+	list-style-type: disc;
+}
+
+hr {
+	margin: 20px;
+    border: 0;
+    height: 1px;
+    background-image: -webkit-linear-gradient(left, rgba(144,144,144,0), rgba(144,144,144,0.75), rgba(144,144,144,0)); 
+    background-image:    -moz-linear-gradient(left, rgba(204,204,204,0), rgba(204,204,204,0.75), rgba(204,204,204,0)); 
+    background-image:     -ms-linear-gradient(left, rgba(204,204,204,0), rgba(204,204,204,0.75), rgba(204,204,204,0)); 
+    background-image:      -o-linear-gradient(left, rgba(204,204,204,0), rgba(204,204,204,0.75), rgba(204,204,204,0)); 
+}
+
+.footer {font-size:85%;text-align: center;margin-top:50px}

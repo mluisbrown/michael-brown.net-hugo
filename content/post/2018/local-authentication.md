@@ -10,7 +10,7 @@ tags:
 
 Adding support for Touch ID and Face ID to your app is not always completely straightforward, especially given that the documentation from Apple on the APIs is somewhat sparse and in some cases incorrect. I recently added Face ID and Touch ID support to my company's app and I thought it would be helpful to document what I found.
 
-There is only a single class, [LAContext](https://developer.apple.com/documentation/localauthentication/lacontext) in the a [LocalAuthentication](https://developer.apple.com/documentation/localauthentication/) framework, so it's surprising how complex it can get.
+There is only a single class, [LAContext](https://developer.apple.com/documentation/localauthentication/lacontext) in the [LocalAuthentication](https://developer.apple.com/documentation/localauthentication/) framework, so it's surprising how complex it can get.
 
 The most naive implementation of a biometric (Touch ID or Face ID) authentication request is as in Apple's example:
 
@@ -48,7 +48,7 @@ The call to `evaluatePolicy` is obviously asynchronous, so you have to handle th
 
 ## What are you authenticating?
 
-When integrating Touch ID and Face ID, you need to think about what it is that you are actually protecting and how, because if you were dependent on the user's password for, say, making an API call to a server to get an auth token, then you won't have that password if you're using biomtric authentication. There are a couple of options:
+When integrating Touch ID and Face ID, you need to think about what it is that you are actually protecting and how, because if you were dependent on the user's password for, say, making an API call to a server to get an auth token, then you won't have that password if you're using biometric authentication. There are a couple of options:
 
 * You could store the password (well, a hash of it) in the keychain and use that.
 * For APIs, you could store a persistent auth token in the keychain, and use that. This requires that the user authenticates using their password when you're enabling biometric authentication in your app, so that you have a token to store.
@@ -131,9 +131,9 @@ The public key can be sent to a server and associated with a user and device. Su
 
 * the server can then use the public key which was registered for the user to *verify* the signature of the nonce, indicating that the user has been authenticated on the device, and so then provides a session token. This would substitute the normal username plus password hash being sent for server authentication.
 
-Code examples for the various steps above a provided below. These are just examples without any error handling.
+Code examples for the various steps above are provided below. These are just examples without any error handling.
 
-I highly recommend looking at the [SecureEnclaveCrypto](https://github.com/trailofbits/SecureEnclaveCrypto) repo in GitHub from where I got most of this code, and on which I based my implemenatation. The repo hasn't been updated for iOS 11 or Swift 4.x unfortunately.
+I highly recommend looking at the [SecureEnclaveCrypto](https://github.com/trailofbits/SecureEnclaveCrypto) repo in GitHub from where I got most of this code, and on which I based my implementation. The repo hasn't been updated for iOS 11 or Swift 4.x unfortunately.
 The [EllipticCurveKeyPair](https://github.com/agens-no/EllipticCurveKeyPair) repo is also very useful to look at, and is where I got the algorithm for converting a public key into DER and PEM formats.
 
 ## Code for Secure Enclave keys, signing and encryption
@@ -183,3 +183,7 @@ You will need to provide an `LAContext` on which `evaluatePolicy` has succeeded.
 ### Decrypt some data
 
 <script src="https://gist.github.com/mluisbrown/dacc6c96103baa640ad1fc01a3c53801.js"></script>
+
+## Conclusion
+
+I hope I've been able to shed some light on an area of iOS development that isn't particularly well documented, and that has a lot more nuances and edge cases than might appear at first sight.
