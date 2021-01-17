@@ -404,7 +404,7 @@ mark {
 code, tt {
     padding: 1px 3px;
     font-family: Inconsolata, monospace, sans-serif;
-    font-size: 1.0em;
+    font-size: 0.85em;
     white-space: pre-wrap;
     border: #E3EDF3 1px solid;
     background: #F7FAFB;
