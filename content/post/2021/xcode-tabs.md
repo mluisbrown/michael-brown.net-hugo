@@ -8,7 +8,7 @@ tags:
 
 Up until Xcode 12 was released, Xcode tabs were a pretty terrible user experience, especially if you also regularly used an actually good code editor like Sublime Text or Visual Studio Code and knew what a good tabs UX was like. In Xcode tabs you could open the same file in 2 (or more) different tabs, for instance, which is close to useless. Xcode tabs worked pretty much like document tabs in any other application. Unfortunately, this style of tabs is not great for editing code where you are constantly switching between many different files.
 
-Xcode 12 introduced a new type of tabs called which I call "Editor Tabs". I'm not sure if they have an official name. Unfortunately, this change wasn't very well documented and the default settings made it easy to end up with the new style "editor" tabs nested in the old style "window" tabs, which is super confusing:
+Xcode 12 introduced a new type of tabs which I call "Editor Tabs". I'm not sure if they have an official name. Unfortunately, this change wasn't very well documented and the default settings made it easy to end up with the new style "editor" tabs nested in the old style "window" tabs, which is super confusing:
 
 ![Xcode tabs within tabs](/images/xcode-tabs/tabs-in-tabs.png)
 
@@ -40,3 +40,7 @@ Sometimes it's useful to have two editors side by side, so you can edit one file
 ## Old style tabs
 
 Of course the old style Xcode tabs still exist. The Cmd+T shortcut will open a new one. But I avoid using them. They now have absolutely no use for me at all. In fact, it may be a good idea to delete the Cmd+T shortcut mapping altogether to avoid accidentally creating any old style tabs.
+
+## Update: 19-Jan-2021
+
+If anyone from Apple is reading this 👋 Please, please can we have shortcuts like Cmd+1, Cmd+2 etc to jump straight to specific tabs like in Safari? Thanks to [@dmcrodrigues](https://twitter.com/dmcrodrigues) for the suggestion.
