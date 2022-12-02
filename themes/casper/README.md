@@ -1,10 +1,10 @@
 # CASPER theme for hugo
 
 
-Casper is a single-column theme for [Hugo](http://gohugo.io/).
+Casper is a single-column theme for [Hugo](https://gohugo.io/).
 Ported from [Casper theme for Ghost ](https://github.com/TryGhost/Casper)
 
-blog demo : http://vjeantet.fr
+blog demo : https://vjeantet.fr
 blog source : https://github.com/vjeantet/vjeantet.fr
 
 ![Hugo Casper Theme screenshot](https://raw.githubusercontent.com/vjeantet/hugo-theme-casper/master/images/screen.png)
@@ -42,7 +42,7 @@ blog source : https://github.com/vjeantet/vjeantet.fr
 **config.toml**
 
 ``` toml
-BaseUrl= "http://example.com/"
+BaseUrl= "https://example.com/"
 LanguageCode= "fr-FR"
 Title= "My blog is awesome"
 paginate = 5
@@ -56,12 +56,12 @@ canonifyurls = true
   cover = "images/cover.jpg"
   author = "Valère JEANTET"
   authorlocation = "Paris, France"
-  authorwebsite = "http://vjeantet.fr"
+  authorwebsite = "https://vjeantet.fr"
   authorbio= "my bio"
   logo = "images/logo.png"
   googleAnalyticsUserID = "UA-79101-12"
   # Optional RSS-Link, if not provided it defaults to the standard index.xml
-  RSSLink = "http://feeds.feedburner.com/..."
+  RSSLink = "https://feeds.feedburner.com/..."
   githubName = "vjeantet"
   twitterName = "vjeantet"
   # facebookName = ""
@@ -106,7 +106,7 @@ author = "NickName"
 authoravatar = "https://cdn4.iconfinder.com/data/icons/gray-user-management/512/rounded-512.png"
 authorbio = "IT software and Security Engineer, Open source enthusiast."
 authorlocation = "Paris, France"
-authorwebsite = "http://vjeantet.fr"
+authorwebsite = "https://vjeantet.fr"
 ...
 +++
 

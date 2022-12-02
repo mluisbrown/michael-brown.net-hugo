@@ -8,7 +8,7 @@ tags:
 
 Comparing dates is one of the most common things you have to do as a developer of almost any type of software. At first glance it would seem to be something almost trivially easy. What could possibly go wrong? Well, turns out, quite a lot!
 
-I'm going to highlight just one issue that recently caused an embarassing bug in my app [Memories](http://memories.land). It involved just a simple date comparison, ignoring time, and without crossing timezones.
+I'm going to highlight just one issue that recently caused an embarassing bug in my app [Memories](https://michael-brown.net/memories/). It involved just a simple date comparison, ignoring time, and without crossing timezones.
 
 I had an array of `NSDate` and I wanted to get the index of the date in the array closest to the current date. The code was something like this:
 

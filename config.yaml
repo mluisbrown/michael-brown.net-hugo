@@ -2,7 +2,7 @@
 contentdir: "content"
 layoutdir: "layouts"
 publishdir: "public"
-baseurl: "http://michael-brown.net/"
+baseurl: "https://michael-brown.net/"
 title: "Michael Brown"
 paginate: 5
 copyright: "Copyright © 2016"
@@ -15,14 +15,14 @@ params:
   cover: "images/bridge2.jpg"
   author: "Michael Brown"
   # authorlocation: "Lisbon, Portugal"
-  authorwebsite: "http://michael-brown.net"
+  authorwebsite: "https://michael-brown.net"
   noauthor: false
   share: false
   # bio: "iOS Developer"
   logo: "images/head.png"
   googleAnalyticsUserID: "UA-41132207-2"
   # Optional RSS-Link, if not provided it defaults to the standard index.xml
-  # RSSLink: "http://feeds.feedburner.com/..."
+  # RSSLink: "https://feeds.feedburner.com/..."
   githubName: "mluisbrown"
   twitterName: "mluisbrown"
   stackoverflowId: "368085"

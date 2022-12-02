@@ -11,6 +11,6 @@ My old tumblr blog was a mess. I was doing a very bad impression of being an App
 
 So I killed it. All the old posts are gone.
 
-I'm starting over, with a new blog using the [Hugo](http://gohugo.io/) static blogging engine and hosting everything on [GitHub Pages](https://pages.github.com/). The source for the blog can be found at [here](https://github.com/mluisbrown/michael-brown.net-hugo) on GitHub.
+I'm starting over, with a new blog using the [Hugo](https://gohugo.io/) static blogging engine and hosting everything on [GitHub Pages](https://pages.github.com/). The source for the blog can be found at [here](https://github.com/mluisbrown/michael-brown.net-hugo) on GitHub.
 
 I'm setting myself a target of at least one post per week, even if it's only a one-liner with a link. Here we go!

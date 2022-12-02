@@ -8,7 +8,7 @@ tags:
 - autolayout
 ---
 
-So, I was working on updating my app [Memories](http://memories.land) to support displaying Live Photos properly and not just as a static image. I took a look at the documentation for [`PHLivePhotoView`](https://developer.apple.com/reference/photosui/phlivephotoview) and thought that this would be fairly straightforward. For Live Photos, I'll just use a `PHLivePhotoView` instead of a `UIImageView`.
+So, I was working on updating my app [Memories](https://michael-brown.net/memories/) to support displaying Live Photos properly and not just as a static image. I took a look at the documentation for [`PHLivePhotoView`](https://developer.apple.com/reference/photosui/phlivephotoview) and thought that this would be fairly straightforward. For Live Photos, I'll just use a `PHLivePhotoView` instead of a `UIImageView`.
 
 Well, as is usually the case when a developer says: "this looks straightforward, I'll have it done in a couple of hours", it was not quite so straightforward and had me scratching my head and cursing until 2am until I finally realised what I was doing wrong.
 
