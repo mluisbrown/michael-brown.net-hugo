@@ -10,6 +10,12 @@ canonifyurls: true
 theme: "casper"
 metaDataFormat: "yaml"
 
+# allow inline HTML (eg script tags) to be rendered
+markup:
+  goldmark:
+    renderer:
+      unsafe: true
+
 params:
   description: "the only way to do great work is to love what you do"
   cover: "images/bridge2.jpg"
