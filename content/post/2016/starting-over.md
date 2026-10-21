@@ -2,6 +2,8 @@
 title: "Starting Over"
 # description: "Starting Over"
 date: "2016-02-25"
+aliases:
+- "/starting-over/"
 tags: 
 - "blog"
 - "meta"

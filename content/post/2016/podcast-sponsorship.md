@@ -1,6 +1,8 @@
 ---
 title: "Podcast sponsorship - an experiment"
 date: "2016-06-16"
+aliases:
+- "/2016/podcast-sponsorship---an-experiment/"
 tags:
 - dev
 - business
