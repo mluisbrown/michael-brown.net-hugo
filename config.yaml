@@ -4,7 +4,8 @@ layoutdir: "layouts"
 publishdir: "public"
 baseurl: "https://michael-brown.net/"
 title: "Michael Brown"
-paginate: 5
+pagination:
+  pagerSize: 5
 copyright: "Copyright © 2016"
 canonifyurls: true
 theme: "casper"

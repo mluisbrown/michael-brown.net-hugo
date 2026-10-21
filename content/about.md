@@ -1,4 +1,5 @@
 ---
+type: "page"
 date: "2016-02-25"
 draft: false
 title: "About me"
