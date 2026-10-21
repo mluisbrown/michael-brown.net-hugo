@@ -96,6 +96,40 @@ main {
 	pointer-events: none;
 }
 
+.phone .play {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	width: 72px;
+	height: 72px;
+	margin: -36px 0 0 -36px;
+	padding: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border: 0;
+	border-radius: 50%;
+	background: rgba(0, 0, 0, 0.45);
+	-webkit-backdrop-filter: blur(12px);
+	backdrop-filter: blur(12px);
+	color: #fff;
+	cursor: pointer;
+	transition: transform 0.15s ease, background 0.15s ease;
+}
+
+.phone .play[hidden] { display: none; }
+
+.phone .play:hover { background: rgba(0, 0, 0, 0.6); transform: scale(1.06); }
+
+.phone .play:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+
+.phone .play svg {
+	width: 32px;
+	height: 32px;
+	margin-left: 4px;
+	fill: currentColor;
+}
+
 .description {
 	width: 100%;
 	max-width: 480px;

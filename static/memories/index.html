@@ -37,6 +37,23 @@
 						<source src="memories.mp4" type="video/mp4">
 					</video>
 					<img class="bezel" src="iphone18pro.png" alt="">
+					<button class="play" type="button" aria-label="Play demo video" hidden>
+						<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.5-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z"/></svg>
+					</button>
+					<script>
+					// Show a play button when autoplay is blocked (Safari settings,
+					// content blockers, Low Power Mode) or the video is otherwise paused.
+					(function () {
+						var video = document.querySelector('.phone video');
+						var button = document.querySelector('.phone .play');
+						function update() { button.hidden = !video.paused; }
+						video.addEventListener('play', update);
+						video.addEventListener('pause', update);
+						button.addEventListener('click', function () { video.play(); });
+						var attempt = video.play();
+						if (attempt) attempt.then(update, update);
+					})();
+					</script>
 				</div>
 
 				<div class="description">

@@ -27,7 +27,6 @@ params:
   share: false
   # bio: "iOS Developer"
   logo: "images/head.png"
-  googleAnalyticsUserID: "UA-41132207-2"
   # Optional RSS-Link, if not provided it defaults to the standard index.xml
   # RSSLink: "https://feeds.feedburner.com/..."
   githubName: "mluisbrown"
