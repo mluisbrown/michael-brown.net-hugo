@@ -1,0 +1,27 @@
+{{- /*
+  App card for the Apps page.
+
+  {{< app name="Memories" icon="/memories/icon@2x.png" url="/memories/"
+          tagline="Relive this day, every year" featured="true"
+          appstore="https://apps.apple.com/app/id1037130497" >}}
+  Description (Markdown).
+  {{< /app >}}
+
+  Optional: url (omit for no link), label (e.g. "Discontinued"),
+  featured, appstore (shows the App Store badge).
+*/ -}}
+{{- $url := .Get "url" -}}
+<div class="app-card{{ if .Get "featured" }} app-card--featured{{ end }}">
+  {{ if $url }}<a class="app-card__icon" href="{{ $url }}">{{ else }}<span class="app-card__icon">{{ end -}}
+  <img src="{{ .Get "icon" }}" alt="{{ .Get "name" }} app icon">
+  {{- if $url }}</a>{{ else }}</span>{{ end }}
+  <div class="app-card__body">
+    <h3 class="app-card__name">
+      {{- if $url }}<a href="{{ $url }}">{{ .Get "name" }}</a>{{ else }}{{ .Get "name" }}{{ end -}}
+      {{- with .Get "label" }} <span class="app-card__label">{{ . }}</span>{{ end -}}
+    </h3>
+    {{ with .Get "tagline" }}<p class="app-card__tagline">{{ . }}</p>{{ end }}
+    <div class="app-card__desc">{{ .Inner | markdownify }}</div>
+    {{ with .Get "appstore" }}<a class="app-card__badge" href="{{ . }}"><img src="/memories/appstore.svg" alt="Download on the App Store"></a>{{ end }}
+  </div>
+</div>
