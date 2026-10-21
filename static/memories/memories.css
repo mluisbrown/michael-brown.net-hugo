@@ -1,147 +1,187 @@
-@font-face {
-  font-family: "San Francisco";
-  font-weight: 100;
-  src: url("sanfranciscodisplay-ultralight-webfont.woff2") format("woff2"), url("sanfranciscodisplay-ultralight-webfont.woff") format("woff");
+:root {
+	--text: #f5efe8;
+	--muted: #b9aca0;
+	--accent: #f0b46c;
+	--rule: rgba(245, 239, 232, 0.15);
 }
+
+* { box-sizing: border-box; }
 
 body {
-	font-family: "San Francisco", Helvetica, Arial, sans-serif;
-	font-weight: 100;
-	font-size: 1.1em;
-	color: white;
-	background-color: #4a525a;
+	margin: 0;
+	min-height: 100vh;
+	font-family: -apple-system, system-ui, "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 17px;
+	line-height: 1.5;
+	color: var(--text);
+	background: linear-gradient(#4a3420, #0b0907 70%) fixed;
+	background-color: #0b0907;
+	-webkit-font-smoothing: antialiased;
 }
 
-a { color: #aaa; text-decoration: none; }
-a:hover { color: #aaa; text-decoration: underline; }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
 
-strong {
-	font-weight: 500;
-	color: #aaa;
+#content {
+	max-width: 960px;
+	margin: 0 auto;
+	padding: 48px 24px 32px;
 }
 
-#content {			
-	width: 320px ;
-	margin-left: auto ;
-	margin-right: auto ;
-	margin-top: 50px;
-}
+/* Header */
 
-.left {
-	width: 320px;
-	vertical-align: middle;
-	margin-right: auto;
-	margin-left: auto;
+header {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 16px;
 	text-align: center;
-}
-
-.right {
-	width: 320px;
-	vertical-align: middle;
-	margin-right: auto;
-	margin-left: auto;
-	text-align: center;
-}
-
-.phoneImg {
-	width: 320px;
 }
 
 .iconImg {
 	width: 128px;
-}
-
-.appStoreButton {
-	width: 280px;
-}
-
-.description {
-	text-align: left;
-	margin-bottom: 30px;
-}
-
-.contact {
-	text-align: center;
-}
-
-#phone {
-	background:url("iphone6-black.png") center top; 
-	background-repeat: no-repeat;
-	background-size: 455px;
-	height: 720px;
-	margin: 0;
-	padding: 0;
-}
-
-#demovideo {
-	margin-top: 122px;
-	width: 282px;
-	height: 500px;
+	height: 128px;
+	filter: drop-shadow(0 10px 24px rgba(0, 0, 0, 0.45));
 }
 
 .title {
-	padding:0px;
-	margin-top: 0em;
-	margin-bottom: 0em;
-	font-family: "San Francisco", Helvetica, Arial, sans-serif;
-	font-size: 4em;
-	font-weight: 100;
-	text-align: center;
-	color: #aaa;
-}		
-
-.subtitle {
-
-	text-align: center;
+	margin: 0;
+	font-size: 56px;
+	font-weight: 700;
+	letter-spacing: -0.02em;
+	line-height: 1.1;
 }
 
-@media (min-width: 920px) {
-	#content { width: 920px;}
-	.left {
-		width: 450px;
-		float: left;
-	}
-	.right {
-		width: 450px;
-		float: right;
-	}
+.subtitle {
+	margin: 4px 0 0;
+	font-size: 22px;
+	color: var(--muted);
+}
 
-	.phoneImg {
-		width: 450px;
+/* Main */
+
+main {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 48px;
+	margin-top: 48px;
+}
+
+.phone {
+	position: relative;
+	width: min(340px, 80vw);
+	aspect-ratio: 720 / 1472;
+	flex-shrink: 0;
+	filter: drop-shadow(0 30px 40px rgba(0, 0, 0, 0.5));
+}
+
+/* The video sits in the bezel's screen opening (1206x2622 at 72,69 in a 1350x2760 frame). */
+.phone video {
+	position: absolute;
+	left: 5.3333%;
+	top: 2.5%;
+	width: 89.3333%;
+	height: 95%;
+	object-fit: cover;
+	border-radius: 15.75% / 7.25%;
+	background: #000;
+}
+
+.phone .bezel {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	pointer-events: none;
+}
+
+.description {
+	width: 100%;
+	max-width: 480px;
+}
+
+.intro {
+	margin-top: 0;
+	font-size: 20px;
+}
+
+.features {
+	list-style: none;
+	margin: 24px 0 32px;
+	padding: 0;
+}
+
+.features li {
+	padding: 10px 0;
+	color: var(--muted);
+}
+
+.features strong {
+	display: block;
+	color: var(--text);
+	font-weight: 600;
+}
+
+.appStoreButton {
+	display: inline-block;
+}
+
+.appStoreButton img {
+	display: block;
+	height: 54px;
+	width: auto;
+}
+
+@media (min-width: 860px) {
+	header {
+		flex-direction: row;
+		justify-content: center;
+		gap: 32px;
+		text-align: left;
 	}
 
 	.iconImg {
-		width: 256px;
+		width: 160px;
+		height: 160px;
 	}
 
-	.description {
-		margin-top: 30px;
+	.title { font-size: 72px; }
+
+	main {
+		flex-direction: row;
+		align-items: flex-start;
+		justify-content: center;
+		gap: 72px;
 	}
 
-	.title {
-		margin-top: 1em;
-		text-align: left;
-	}
-
-	.subtitle {
-                margin-left: 5px;
-		text-align: left;
+	.phone {
+		position: sticky;
+		top: 32px;
 	}
 }
 
-ul li {
-	padding:5px;
-	list-style-type: disc;
+/* Privacy page */
+
+.policy {
+	max-width: 640px;
+	margin: 48px auto 0;
 }
 
-hr {
-	margin: 20px;
-    border: 0;
-    height: 1px;
-    background-image: -webkit-linear-gradient(left, rgba(144,144,144,0), rgba(144,144,144,0.75), rgba(144,144,144,0)); 
-    background-image:    -moz-linear-gradient(left, rgba(204,204,204,0), rgba(204,204,204,0.75), rgba(204,204,204,0)); 
-    background-image:     -ms-linear-gradient(left, rgba(204,204,204,0), rgba(204,204,204,0.75), rgba(204,204,204,0)); 
-    background-image:      -o-linear-gradient(left, rgba(204,204,204,0), rgba(204,204,204,0.75), rgba(204,204,204,0)); 
+.policy h2 {
+	font-size: 28px;
+	font-weight: 600;
 }
 
-.footer {font-size:85%;text-align: center;margin-top:50px}
+/* Footer */
+
+footer {
+	margin-top: 64px;
+	padding-top: 24px;
+	border-top: 1px solid var(--rule);
+	text-align: center;
+	font-size: 15px;
+	color: var(--muted);
+}
+
+footer p { margin: 4px 0; }

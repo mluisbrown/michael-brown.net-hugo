@@ -14,7 +14,7 @@ menu:
 
 iOS Apps I’ve developed available in the App Store:
 
-[Memories - Photos taken On This Day](/memories/)
+[Memories - Relive this day, every year](/memories/)
 [![Memories Icon](/images/appicons/memories.png)](/memories/)
 
 Discontinued apps:
